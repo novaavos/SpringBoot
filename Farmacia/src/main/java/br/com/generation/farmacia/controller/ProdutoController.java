@@ -26,34 +26,38 @@ public class ProdutoController {
 	private ProdutoRepository repository;
 	
 	@GetMapping
-	public ResponseEntity<List<Produto>> findAllProduto(){
+	public ResponseEntity<List<Produto>> getAll(){
 		return ResponseEntity.ok(repository.findAll());
 	}
 	
-	@GetMapping("/{id}")
-	public ResponseEntity<Produto> findByIDProduto(@PathVariable long id){
-		return repository.findById(id)
+	@GetMapping("/{id_produto}")
+	public ResponseEntity<Produto> getAll(@PathVariable long id_produto){
+		return repository.findById(id_produto)
 				.map(resp -> ResponseEntity.ok(resp))
 				.orElse(ResponseEntity.notFound().build());
 	}
-
+	
 	@GetMapping("/produtos/{nome}")
-	public ResponseEntity<List<Produto>> findByDescricaoTitulo(@PathVariable String nome){
-		return ResponseEntity.ok(repository.findAllByNomeContainingIgnoreCase(nome));
+	public ResponseEntity<List<Produto>> getByTitle(@PathVariable String nome){
+		return ResponseEntity.ok(repository.
+			findAllByNomeContainingIgnoreCase(nome));
 	}
 	
 	@PostMapping
-	public ResponseEntity<Produto> postProduto (@RequestBody Produto Produto){
-		return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(Produto));
+	public ResponseEntity<Produto> post(@RequestBody Produto produto){
+		return ResponseEntity.status(HttpStatus.CREATED)
+				.body(repository.save(produto));
 	}
 	
 	@PutMapping
-	public ResponseEntity<Produto> putProduto (@RequestBody Produto Produto){
-		return ResponseEntity.status(HttpStatus.OK).body(repository.save(Produto));
+	public ResponseEntity<Produto> put(@RequestBody Produto produto){
+		return ResponseEntity.status(HttpStatus.CREATED)
+				.body(repository.save(produto));
 	}
 	
-	@DeleteMapping("/{id}")
-	public void deleteProduto(@PathVariable long id) {
-		repository.deleteById(id);
+	@DeleteMapping("/{id_produto}")
+	public void delete(@PathVariable long id_produto){
+		repository.deleteById(id_produto);
+		
 	}
 }
