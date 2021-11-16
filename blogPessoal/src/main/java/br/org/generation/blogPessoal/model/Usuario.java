@@ -5,6 +5,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
@@ -16,18 +17,27 @@ public class Usuario {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	
-	@NotBlank
+	@NotBlank(message = "O atributo nome é obrigatório")
 	@Size(min = 2, max = 100)
 	private String nome;
 	
-	@NotBlank
-	@Size(min = 5, max = 100)
+	@NotBlank(message = "O atributo usuário é obrigatório")
+	@Email(message = "O formato do usuário é email")
 	private String usuario;
 	
-	@NotBlank
+	@NotBlank(message = "O atributo senha é obrigatório")
 	@Size(min = 5, max = 100)
 	private String senha;
 
+	public Usuario(long id, String nome, String usuario, String senha) {
+		this.id = id;
+		this.nome = nome;
+		this.usuario = usuario;
+		this.senha = senha;
+	}
+
+	public Usuario() {	}
+	
 	public long getId() {
 		return id;
 	}
